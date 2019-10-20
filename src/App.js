@@ -8,7 +8,8 @@ const API_KEY = "e70e00c193a89547249484c3903fed60";
 class App extends React.Component{
     state = {
         temp: undefined,
-        sunset: undefined
+        sunset: undefined,
+        error: undefined
     }
     gettingWeather = async (e) => {
         e.preventDefault();
@@ -19,23 +20,35 @@ class App extends React.Component{
         if (data.cod === 200) {
             this.setState({
                 temp: data.main.temp,
-                sunset: data.sys.sunset
+                sunset: data.sys.sunset,
+                error: undefined
             })
         }
         else
         {
             this.setState({
                 temp: undefined,
-                sunset: undefined
+                sunset: undefined,
+                error: "Введите другой город"
             });
         }
     };
     render() {
         return(
-            <div>
-                <Info/>
-                <Form gettingWeather={this.gettingWeather} />
-                <Weather temp={this.state.temp} sunset={this.state.sunset}/>
+            <div className="wrapper">
+                <div className="main">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-5 info">
+                            <Info/>
+                        </div>
+                        <div className="col-md-7 form">
+                            <Form gettingWeather={this.gettingWeather} />
+                            <Weather temp={this.state.temp} sunset={this.state.sunset} error={this.state.error}/>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
         );
     }
